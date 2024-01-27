@@ -10,6 +10,8 @@ The escape character is the \ character.
 
 Example of use:
 
+  from expand import expand 
+  
   expand("hi{ there}!, (what is up|how are you doing)?")
 
 Returns: ["hi there!, what is up?", "hi there!, how are you doing?",
@@ -19,6 +21,8 @@ There is also a pprint() function that whould print a long sentence in multiple 
 
 Example:
 
+  from pprint import pprint
+  
   pprint("My (son in law|mother|dad|uncle|brother|sister|daughter) is sick")
   
 Outputs:
