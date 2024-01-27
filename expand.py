@@ -136,15 +136,30 @@ def expand_it(string, l_expansions, ptr_char):
     return True
         
 
-def expand(string):
+def expand(string, variables=None):
     
     string = string.strip()
 
     if not string: return []
   
     result = []
-  
-    expand_it(s, result, 0) 
+    
+    if variables:
+        
+        strings = []
+    
+        for slot, vals in variables.items():
+        
+            if "$"+slot in string:
+    
+                for val in vals:                    
+                    strings.append(string.replace("$"+slot, val))
+
+    else:
+        strings = [string]
+    
+    for string in strings:
+        if not expand_it(string, result, 0): return None   
    
     return result 
 
@@ -162,3 +177,17 @@ This is{ way} better than I (expected|needed|asked for).
     results = expand(s) 
     if results:
       for result in results: print(result)
+      
+      
+    v = { "hello" : ["Hello", "Hi there", "Morning"],
+           "thanks" : ["Thank you!", "Thanks!", "Thanks a lot."] 
+           }
+           
+    
+    print("\nWith variables:\n")
+    
+    for res in expand("$hello! Please follow the procedure. $thanks",
+                      v):
+        print(res)
+  
+  

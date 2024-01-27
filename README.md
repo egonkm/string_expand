@@ -25,7 +25,7 @@ Example:
   
   pprint("My (son in law|mother|dad|uncle|brother|sister|daughter) is sick")
   
-Outputs:
+Output:
    My (son in law|
        mother|
        dad|
@@ -34,4 +34,25 @@ Outputs:
        sister|
        daughter) is sick
        
+       
+# Add variables:
 
+For expand, let's add the possibility of using a dictionary for variable substitution.
+The value of a variable is a list of one or more strings that will be replaced by the variable name wherever we found it in the string.
+We will use the $ character to identify a variable.
+
+Example of use:
+
+  from expand import expand
+  
+  v = { "hello" : ["Hello", "Hi there", "Morning"],
+           "thanks" : ["Thank you!", "Thanks!", "Thanks a lot."] 
+           }
+           
+  expand("$hello! Please follow the procedure. $thanks", v)
+  
+Returns:
+  [ "Hello! Please follow the procedure. Thank you!", "Hi there! Please follow the procedure. Thank you!", ...]
+  
+  
+  
