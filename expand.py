@@ -10,10 +10,21 @@ OPEN = "({"
 CLOSE = ")}"
 
 
-def expand(string):
-    
+def expand_it(string, l_expansions, ptr_char):
     
     return []
+
+def expand(string):
+    
+    string = string.strip()
+
+    if not string: return []
+  
+    result = []
+  
+    expand_it(s, result, 0) 
+   
+    return result 
 
 
 if __name__=="__main__":
