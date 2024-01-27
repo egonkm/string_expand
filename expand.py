@@ -138,6 +138,7 @@ def expand_it(string, l_expansions, ptr_char):
 
 def expand(string, variables=None):
     
+
     string = string.strip()
 
     if not string: return []
@@ -146,23 +147,21 @@ def expand(string, variables=None):
     
     if variables:
         
-        strings = []
-    
         for slot, vals in variables.items():
         
             if "$"+slot in string:
+        
+                if not isinstance(vals,list): vals = [vals]
+                
+                as_group = "("+"|".join(vals)+")"
+                
+                string = string.replace("$"+slot, as_group)
+                print(as_group)
     
-                for val in vals:                    
-                    strings.append(string.replace("$"+slot, val))
-
-    else:
-        strings = [string]
-    
-    for string in strings:
-        if not expand_it(string, result, 0): return None   
-   
-    return result 
-
+    print(string)
+    if not  expand_it(string, result, 0): return []
+                
+    return result
 
 if __name__=="__main__":
     
@@ -184,10 +183,11 @@ This is{ way} better than I (expected|needed|asked for).
            }
            
     
-    print("\nWith variables:\n")
+    s = "$hello! Please follow the procedur(e|s). $thanks"
     
-    for res in expand("$hello! Please follow the procedure. $thanks",
-                      v):
+    print("\nWith variables:", s, "\n")
+    
+    for res in expand(s, v):
         print(res)
   
   
