@@ -15,6 +15,10 @@ SEPARATORS = ["|"]
 SPECIAL = { "{" : "}", 
              "(" : ")"}
 
+ESCAPE_SEQS = ["\(", "\)", "\|", "\{", "\}"]
+ESCAPE_CHAR = "\\"
+
+
  
 def find_group_size(string, car_ptr):
     
@@ -23,7 +27,7 @@ def find_group_size(string, car_ptr):
     car_ptr += 1
     
     while (car_ptr<len(string)) and queue:
-        
+
         if string[car_ptr] in SPECIAL.keys():
             queue.append(SPECIAL[string[car_ptr]])
             
@@ -46,7 +50,7 @@ def find_group_size(string, car_ptr):
     return car_ptr - start_position
 
  
-def pprintit(string, car_ptr=0, line_len=0, tabs=0,
+def _pprintit(string, car_ptr=0, line_len=0, tabs=0,
              queue=[], divide=[]):
        
     if car_ptr >= len(string):
@@ -107,14 +111,20 @@ def pprintit(string, car_ptr=0, line_len=0, tabs=0,
         print( "\n", tabs*"\t", end="")
         
      
-    pprintit(string, car_ptr, line_len, tabs, queue, divide) # recursive call
+    _pprintit(string, car_ptr, line_len, tabs, queue, divide) # recursive call
        
-            
+   
+def pprintit(string):
+    
+    for escape in ESCAPE_SEQS:
+        string = string.replace(escape, escape[1:])    
+        
+    _pprintit(string)
     
 if __name__=="__main__":
     
     string = """
-     Oh{, thank you so much|, God bless you|, I can't believe it}! 
+     Oh{, thank you so much|, God bless you|, I can't \{believe\} it}! 
  This is{ way} better than I (expected|needed|asked for).
      """
      

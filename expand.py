@@ -9,6 +9,8 @@ Created on Sat Jan 27 18:25:51 2024
 OPEN = "({"
 CLOSE = ")}"
 
+ESCAPE_SEQS = ["\(", "\)", "\|", "\{", "\}"]
+ESCAPE_CHAR = "\\"
 
 
 def find_end(string, ptr, close):
@@ -51,6 +53,11 @@ def split(string, sep="|"):
   while ptr<len(string):
       
     c = string[ptr]
+        
+    if c==ESCAPE_CHAR:
+ 
+        ptr += 2
+        continue
 
     if c in OPEN:
       queue.append(CLOSE[OPEN.find(c)])
@@ -121,7 +128,8 @@ def expand_it(string, l_expansions, ptr_char):
 
       ptr_char += 1
 
-    # while "  " in string: string = string.replace("  ", " ")
+    for escape in ESCAPE_SEQS:
+        string = string.replace(escape, escape[1:])
 
     l_expansions.append(string)
 
@@ -144,7 +152,7 @@ def expand(string):
 if __name__=="__main__":
     
     s = """
-    Oh{, thank you so much|, God bless you|, I can't believe it}! 
+    Oh{, thank you so much|, God \|bless you|, I can't believe it}! 
 This is{ way} better than I (expected|needed|asked for).
     """
     s = s.replace("\n", "").strip()
