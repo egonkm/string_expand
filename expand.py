@@ -144,7 +144,7 @@ def expand(string):
   
     result = []
   
-    expand_it(s, result, 0) 
+    expand_it(string, result, 0) 
    
     return result 
 
