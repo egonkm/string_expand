@@ -1,4 +1,4 @@
-#String Exand
+# String Exand
 
 expand strings with groups for all the possible outcomes.
 Groups are identified by the chars:
