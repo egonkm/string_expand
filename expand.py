@@ -18,11 +18,12 @@ def find_end(string, ptr, close):
   # find the last character of a group
   # close : list of ending chars
 
+  print(string)
   while close:
 
     ptr += 1
     
-    if ptr>=len(s): return -1, None # end of s reached without closing char
+    if ptr>=len(string): return -1, None # end of s reached without closing char
     
     c = string[ptr]
 
@@ -103,7 +104,7 @@ def expand_it(string, l_expansions, ptr_char):
             return None
 
           print("Error: reached end of str without closing char ", end_car,".")
-          
+          print(string)
           return None
 
         before = string[0:ptr_char]
@@ -136,18 +137,32 @@ def expand_it(string, l_expansions, ptr_char):
     return True
         
 
-def expand(string):
+def expand(string, variables=None):
     
+
     string = string.strip()
 
     if not string: return []
   
     result = []
-  
-    expand_it(string, result, 0) 
-   
-    return result 
-
+    
+    if variables:
+        
+        for slot, vals in variables.items():
+        
+            if "$"+slot in string:
+        
+                if not isinstance(vals,list): vals = [vals]
+                
+                as_group = "("+"|".join(vals)+")"
+                
+                string = string.replace("$"+slot, as_group)
+                print(string)
+    
+    print(string)
+    if not  expand_it(string, result, 0): return []
+                
+    return result
 
 if __name__=="__main__":
     
@@ -162,3 +177,18 @@ This is{ way} better than I (expected|needed|asked for).
     results = expand(s) 
     if results:
       for result in results: print(result)
+      
+      
+    v = { "hello" : ["Hello", "Hi there", "Morning"],
+           "thanks" : ["Thank you!", "Thanks!", "Thanks a lot."] 
+           }
+           
+    
+    s = "$hello! Please follow the procedur(e|s). $thanks Bye."
+    
+    print("\nWith variables:", s, "\n")
+    
+    for res in expand(s, v):
+        print(res)
+  
+  
